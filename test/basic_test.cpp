@@ -1,9 +1,3 @@
-// Copyright 2022 LAB0 inc.
-// All rights reserved.
-//
-// Unauthorized copying of this code base via any medium is strictly prohibited.
-// Proprietary and confidential.
-
 // Description: Test if a simple task plan works
 
 #include <rclcpp/rclcpp.hpp>
@@ -21,6 +15,7 @@ class TaskPlanningFixture : public testing::Test {
   }
 
   void SetUp() override {
+    // Setup things that should occur before every test instance should go here
     RCLCPP_ERROR_STREAM(node_->get_logger(), "DONE WITH SETUP!!");
   }
 
