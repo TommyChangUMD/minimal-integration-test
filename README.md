@@ -5,6 +5,10 @@ colcon build --packages-select minimal_integration_test
 ```
 
 ## How to Run:
+First, soruce the setup file:
+```
+source install/setup.bash
+```
 ### without verbose output:
 ```
 colcon test --packages-select minimal_integration_test
