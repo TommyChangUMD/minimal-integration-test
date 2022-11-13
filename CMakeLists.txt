@@ -1,5 +1,10 @@
-cmake_minimum_required(VERSION 3.16.3)
+cmake_minimum_required(VERSION 3.8)
 project(minimal_integration_test)
+
+# clangd support
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+execute_process(COMMAND "rm" "-f" "${CMAKE_SOURCE_DIR}/compile_commands.json")
+execute_process(COMMAND "ln" "-s" "-r" "${CMAKE_BINARY_DIR}/compile_commands.json" "${CMAKE_SOURCE_DIR}/")
 
 set(THIS_PACKAGE_INCLUDE_DEPENDS
     rclcpp
@@ -15,7 +20,6 @@ endforeach()
 if(BUILD_TESTING)
   find_package(ament_cmake_gtest REQUIRED)
   find_package(ament_lint_auto REQUIRED)
-  find_package(ros_testing REQUIRED)
 
   # the following lines skip linters
   set(ament_cmake_cppcheck_FOUND TRUE)
@@ -28,11 +32,11 @@ if(BUILD_TESTING)
   # Run all lint tests in package.xml except those listed above
   ament_lint_auto_find_test_dependencies()
 
-  ament_add_gtest_executable(basic_test
-    test/basic_test.cpp
-  )
-  ament_target_dependencies(basic_test ${THIS_PACKAGE_INCLUDE_DEPENDS})
-  add_ros_test(test/launch/basic_test.test.py TIMEOUT 120 ARGS "test_binary_dir:=${CMAKE_CURRENT_BINARY_DIR}")
+  # Add a gtest executable
+  set(TESTFILES
+    test/basic_test.cpp)
+  ament_add_gtest(${PROJECT_NAME}_test ${TESTFILES})
+  ament_target_dependencies(${PROJECT_NAME}_test ${THIS_PACKAGE_INCLUDE_DEPENDS})
 endif()
 
 ament_export_dependencies(${THIS_PACKAGE_INCLUDE_DEPENDS})
