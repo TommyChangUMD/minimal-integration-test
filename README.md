@@ -52,4 +52,14 @@ integration_test_test.gtest.xml
 1: [==========] 1 test from 1 test suite ran. (4979 ms total)
 1: [  PASSED  ] 1 test.
 1: DONE SHUTTING DOWN ROS
+
+...
+
+Label Time Summary:
+cppcheck      =   0.19 sec*proc (1 test)
+gtest         =   5.19 sec*proc (1 test)
+lint_cmake    =   0.17 sec*proc (1 test)
+linter        =   0.73 sec*proc (3 tests)
+xmllint       =   0.36 sec*proc (1 test)
+
 ```
