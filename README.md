@@ -1,4 +1,4 @@
-A simple method to test ROS nodes using minimalist approach to
+A simple method to test ROS nodes using a minimalist approach to
 launching ROS nodes.
 
 First, move this directory to the `src/` folder of your colcon
