@@ -9,9 +9,13 @@ execute_process(COMMAND "ln" "-s" "-r" "${CMAKE_BINARY_DIR}/compile_commands.jso
 set(THIS_PACKAGE_INCLUDE_DEPENDS
     rclcpp
     rclcpp_action
+    std_msgs
 )
 
+# include dependencies
 find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(std_msgs REQUIRED)
 
 foreach(Dependency IN ITEMS ${THIS_PACKAGE_INCLUDE_DEPENDS})
   find_package(${Dependency} REQUIRED)
@@ -27,7 +31,6 @@ if(BUILD_TESTING)
   set(ament_cmake_cpplint_FOUND TRUE)
   set(ament_cmake_flake8_FOUND TRUE)
   set(ament_cmake_uncrustify_FOUND TRUE)
-  ament_lint_auto_find_test_dependencies()
 
   # Run all lint tests in package.xml except those listed above
   ament_lint_auto_find_test_dependencies()
@@ -39,5 +42,13 @@ if(BUILD_TESTING)
   ament_target_dependencies(${PROJECT_NAME}_test ${THIS_PACKAGE_INCLUDE_DEPENDS})
 endif()
 
-ament_export_dependencies(${THIS_PACKAGE_INCLUDE_DEPENDS})
+# build executables
+add_executable(talker src/publisher_member_function.cpp)
+ament_target_dependencies(talker rclcpp std_msgs)
+
+# install executables
+install(TARGETS
+  talker
+  DESTINATION lib/${PROJECT_NAME})
+
 ament_package()
