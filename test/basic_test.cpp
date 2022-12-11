@@ -32,7 +32,8 @@ class TaskPlanningFixture : public testing::Test {
     // Tear things that should occur after every test instance should go here
 
     // Stop the running ros2 node, if any.
-    StopROSExec ();
+    bool retVal = StopROSExec ();
+    EXPECT_TRUE(retVal);
 
     std::cout << "DONE WITH TEARDOWN" << std::endl;
   }
@@ -47,7 +48,7 @@ class TaskPlanningFixture : public testing::Test {
   {
     cmd_ss << "ros2 run " << pkg_name << " " << exec_name << " > /dev/null 2> /dev/null &";
     cmdInfo_ss << "ros2 node info " << "/" << node_name << " > /dev/null 2> /dev/null";
-    killCmd_ss << "killall -s SIGINT " << exec_name << " > /dev/null 2> /dev/null";
+    killCmd_ss << "pkill --signal SIGINT " << exec_name << " > /dev/null 2> /dev/null";
 
     // Start a ros2 node and wait for it to get ready:
     int retVal =  system (cmd_ss.str().c_str());

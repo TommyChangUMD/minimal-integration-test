@@ -1,9 +1,10 @@
-A simple method to test ROS nodes using a minimalist approach to
-launching ROS nodes.
+A simple method to test ROS nodes using gtest and a minimalist
+approach to launching ROS nodes.
 
 First, move this directory to the `src/` folder of your colcon
 workspace.  This is *important* or your unit test will get a lot of
 errors from `ament_lint_cmake`.
+
 
 ## How to Compile:
 ```
