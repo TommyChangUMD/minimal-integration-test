@@ -25,7 +25,7 @@ cat log/latest_test/minimal_integration_test/stdout_stderr.log
 
 ### check the return status:
 ```
-colcon test-result --test-result-base build/minimal_integration_test
+colcon test-result --verbose --test-result-base build/minimal_integration_test
 echo $?
 ```
 

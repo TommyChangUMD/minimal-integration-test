@@ -50,6 +50,9 @@ class TaskPlanningFixture : public testing::Test {
     cmdInfo_ss << "ros2 node info " << "/" << node_name << " > /dev/null 2> /dev/null";
     killCmd_ss << "pkill --signal SIGINT " << exec_name << " > /dev/null 2> /dev/null";
 
+    // First kill the ros2 node, in case it's still running.
+    StopROSExec();
+    
     // Start a ros2 node and wait for it to get ready:
     int retVal =  system (cmd_ss.str().c_str());
     if (retVal != 0)
