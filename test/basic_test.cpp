@@ -22,7 +22,7 @@ class TaskPlanningFixture : public testing::Test {
      *  example: package name = cpp_pubsub, node name = minimal_publisher, executable = talker
      */
     bool retVal = StartROSExec ("minimal_integration_test", "minimal_publisher", "talker");
-    EXPECT_TRUE(retVal);
+    ASSERT_TRUE(retVal);
 
     RCLCPP_INFO_STREAM(node_->get_logger(), "DONE WITH SETUP!!");
 
@@ -33,7 +33,7 @@ class TaskPlanningFixture : public testing::Test {
 
     // Stop the running ros2 node, if any.
     bool retVal = StopROSExec ();
-    EXPECT_TRUE(retVal);
+    ASSERT_TRUE(retVal);
 
     std::cout << "DONE WITH TEARDOWN" << std::endl;
   }
