@@ -5,9 +5,23 @@ First, move this directory to the `src/` folder of your colcon
 workspace.  This is *important* or your unit test will get a lot of
 errors from `ament_lint_cmake`.
 
+For example, your workspace directory structure should look like this:
+
+```
+colcon_ws/
+├── build/
+├── install/
+├── log/
+└── src/
+    ├── minimal-integration-test/
+    ├── ros_package1/
+    ├── ros_package2/
+    └── ros_package3/
+```
 
 ## How to Compile:
 ```
+colcon_ws/   # assuming your workspace is called 'colcon_ws'
 rm -rf build/minimal_integration_test  # if needed
 colcon build --packages-select minimal_integration_test
 ```
@@ -54,7 +68,7 @@ integration_test_test.gtest.xml
 1: [  PASSED  ] 1 test.
 1: DONE SHUTTING DOWN ROS
 
-...
+... <SKIP> ...
 
 Label Time Summary:
 cppcheck      =   0.19 sec*proc (1 test)
