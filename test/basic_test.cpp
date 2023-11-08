@@ -46,9 +46,11 @@ class TaskPlanningFixture : public testing::Test {
                      const char* node_name,
                      const char* exec_name)
   {
+    // build command strings
     cmd_ss << "ros2 run " << pkg_name << " " << exec_name << " > /dev/null 2> /dev/null &";
     cmdInfo_ss << "ros2 node info " << "/" << node_name << " > /dev/null 2> /dev/null";
-    killCmd_ss << "pkill --signal SIGINT " << exec_name << " > /dev/null 2> /dev/null";
+    char execName[16];  snprintf (execName, 16, "%s", exec_name); // pkill uses exec name <= 15 char only
+    killCmd_ss << "pkill --signal SIGINT " << execName << " > /dev/null 2> /dev/null";
 
     // First kill the ros2 node, in case it's still running.
     StopROSExec();
