@@ -1,5 +1,11 @@
 A simple method to test ROS nodes using gtest and a minimalist
-approach to launching ROS nodes.
+approach to launching ROS nodes.  Note: The integration test used in
+this example is purposely kept simple.  It makes system() calls with
+the following assumption:
+
+  - Linux OS
+  - pkill command
+
 
 First, move this directory to the `src/` folder of your colcon
 workspace.  This is *important* or your unit test will get a lot of
@@ -19,21 +25,28 @@ colcon_ws/
     └── ros_package3/
 ```
 
-## How to Compile:
+``` bash
+mkdir -p ~/colcon_ws/src
+cd ~/colcon_ws/src
+git clone https://github.com/TommyChangUMD/minimal-integration-test.git
 ```
-colcon_ws/   # assuming your workspace is called 'colcon_ws'
-rm -rf build/minimal_integration_test  # if needed
-colcon build --packages-select minimal_integration_test
+
+## How to Compile:
+```bash
+cd ~/colcon_ws/   # assuming your workspace is at '~/colcon_ws'
+rm -rf install/ build/
+source /opt/ros/humble/setup.bash  # if needed
+colcon build 
 ```
 
 ## How to Run:
 First, soruce the setup file:
-```
+```bash
 source install/setup.bash
 ```
 ### then, run the test and look at the output:
-```
-colcon test --packages-select minimal_integration_test
+```bash
+colcon test 
 cat log/latest_test/minimal_integration_test/stdout_stderr.log
 ```
 

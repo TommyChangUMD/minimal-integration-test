@@ -3,8 +3,10 @@ project(minimal_integration_test)
 
 # clangd support
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-execute_process(COMMAND "rm" "-f" "${CMAKE_SOURCE_DIR}/compile_commands.json")
-execute_process(COMMAND "ln" "-s" "-r" "${CMAKE_BINARY_DIR}/compile_commands.json" "${CMAKE_SOURCE_DIR}/")
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON) # Enable compile_commands.json
+execute_process(COMMAND cmake -E create_symlink
+                "${PROJECT_BINARY_DIR}/compile_commands.json"
+                "${PROJECT_SOURCE_DIR}/compile_commands.json")
 
 set(THIS_PACKAGE_INCLUDE_DEPENDS
     rclcpp

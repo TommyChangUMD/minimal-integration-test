@@ -16,6 +16,7 @@ class TaskPlanningFixture : public testing::Test {
 
   void SetUp() override {
     // Setup things that should occur before every test instance should go here
+    RCLCPP_INFO_STREAM(node_->get_logger(), "SETUP!!");
 
     /*
      * 1.) Define any ros2 package and exectuable you want to test
@@ -30,6 +31,7 @@ class TaskPlanningFixture : public testing::Test {
 
   void TearDown() override {
     // Tear things that should occur after every test instance should go here
+    RCLCPP_INFO_STREAM(node_->get_logger(), "TEARDOWN!!");
 
     // Stop the running ros2 node, if any.
     bool retVal = StopROSExec ();
@@ -60,20 +62,24 @@ class TaskPlanningFixture : public testing::Test {
     if (retVal != 0)
       return false;
     
+    // Wait about 3 seconds for the node to show up
     retVal = -1;
-    while (retVal != 0) {
+    int count  = 0;
+    while ((count++ < 3) && (retVal != 0)) {
       retVal = system (cmdInfo_ss.str().c_str());
       sleep (1);
     }
-    return true;
+    return (retVal == 0);
   }
 
   bool StopROSExec ()
   {
-    if (killCmd_ss.str().empty())
+    // if node is not running, don't need to kill it
+    if ((killCmd_ss.str().empty()) ||
+        system (cmdInfo_ss.str().c_str()) != 0)
       return true;
     
-    int retVal =  system (killCmd_ss.str().c_str());
+    int retVal = system (killCmd_ss.str().c_str());
     return retVal == 0;
   }
   
@@ -108,14 +114,13 @@ TEST_F(TaskPlanningFixture, TrueIsTrueTest) {
   clock_start = timer::now();
   elapsed_time = timer::now() - clock_start;
   rclcpp::Rate rate(2.0);       // 2hz checks
-  while (elapsed_time < 3s)
+  while ((elapsed_time < 3s) && !hasData)
     {
       rclcpp::spin_some(node_);
       rate.sleep();
       elapsed_time = timer::now() - clock_start;
     }
   EXPECT_TRUE (hasData);
-  
 }
 
 int main(int argc, char** argv) {
